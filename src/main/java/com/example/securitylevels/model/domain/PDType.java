@@ -11,7 +11,7 @@ public enum PDType {
             ThreatLevel.TWO, Map.of(SubjectVolume.GT, SecurityLevel.D2, SubjectVolume.LT, SecurityLevel.B3),
             ThreatLevel.THREE, Map.of(SubjectVolume.GT, SecurityLevel.D3, SubjectVolume.LT, SecurityLevel.B4)
     )),
-    SPECIAL("Специальные", Map.of(
+    SPECIAL("Специальные категории", Map.of(
             ThreatLevel.ONE, Map.of(SubjectVolume.GT, SecurityLevel.A1, SubjectVolume.LT, SecurityLevel.A1),
             ThreatLevel.TWO, Map.of(SubjectVolume.GT, SecurityLevel.B1, SubjectVolume.LT, SecurityLevel.B2),
             ThreatLevel.THREE, Map.of(SubjectVolume.GT, SecurityLevel.E2, SubjectVolume.LT, SecurityLevel.V3)

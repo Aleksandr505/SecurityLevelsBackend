@@ -55,7 +55,7 @@ public class LevelController {
                     securityLevel.getReason()     // описание причины
             );
         } catch (Exception e) {
-            response = new LevelResponse(null, "Внутренняя ошибка сервера");
+            response = new LevelResponse(null, e.getMessage());
             return ResponseEntity
                     .status(500)
                     .contentType(MediaType.APPLICATION_JSON)

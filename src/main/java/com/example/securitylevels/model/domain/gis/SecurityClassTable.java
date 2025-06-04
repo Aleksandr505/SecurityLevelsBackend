@@ -4,6 +4,7 @@ import java.util.Map;
 
 public enum SecurityClassTable {
     CLASS_1(1, Map.of(
+            // значение внутри Map - это уровень защищенности
             ScaleLevel.FEDERAL, 1,
             ScaleLevel.REGIONAL, 1,
             ScaleLevel.OBJECT, 1

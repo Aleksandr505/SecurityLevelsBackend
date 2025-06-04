@@ -1,5 +1,6 @@
 package com.example.securitylevels.model.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotEmpty;
 import jakarta.validation.constraints.NotNull;
 
@@ -16,16 +17,20 @@ public class LevelRequest {
     private String number;
     @NotEmpty
     private List<String> selectedOptions;
+    @NotNull
+    @JsonProperty("isEmployee")
+    private Boolean isEmployee;
 
     public LevelRequest() {
     }
 
-    public LevelRequest(String certOs, String certApp, String network, String number, List<String> selectedOptions) {
+    public LevelRequest(String certOs, String certApp, String network, String number, List<String> selectedOptions, Boolean isEmployee) {
         this.certOs = certOs;
         this.certApp = certApp;
         this.network = network;
         this.number = number;
         this.selectedOptions = selectedOptions;
+        this.isEmployee = isEmployee;
     }
 
     public @NotNull String getCertOs() {
@@ -66,5 +71,13 @@ public class LevelRequest {
 
     public void setSelectedOptions(@NotEmpty List<String> selectedOptions) {
         this.selectedOptions = selectedOptions;
+    }
+
+    public @NotNull Boolean getEmployee() {
+        return isEmployee;
+    }
+
+    public void setEmployee(@NotNull Boolean employee) {
+        isEmployee = employee;
     }
 }

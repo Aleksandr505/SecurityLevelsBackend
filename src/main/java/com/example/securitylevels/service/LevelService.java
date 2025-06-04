@@ -42,7 +42,7 @@ public class LevelService {
                 // Преобразуем строку к enum PDType
                 .map(PDType::fromDisplayName)
                 // Из таблицы PDType получаем нужный SecurityLevel
-                .map(pdType -> pdType.getLevel(finalThreatLevel, volume))
+                .map(pdType -> pdType.getLevel(finalThreatLevel, volume, request.getEmployee()))
                 .toList();
 
         // 4. Выбираем наиболее строгий уровень (минимальный по приоритету)

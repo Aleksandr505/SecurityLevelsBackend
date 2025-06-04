@@ -5,44 +5,82 @@ import lombok.Getter;
 import java.util.Map;
 import java.util.stream.Stream;
 
+import static java.util.Map.entry;
+
 public enum PDType {
-    INYE("Иные", Map.of(
-            ThreatLevel.ONE, Map.of(SubjectVolume.GT, SecurityLevel.A1, SubjectVolume.LT, SecurityLevel.A1),
-            ThreatLevel.TWO, Map.of(SubjectVolume.GT, SecurityLevel.D2, SubjectVolume.LT, SecurityLevel.B3),
-            ThreatLevel.THREE, Map.of(SubjectVolume.GT, SecurityLevel.D3, SubjectVolume.LT, SecurityLevel.B4)
+    INYE("Иные", Map.ofEntries(
+            entry(new LevelKey(ThreatLevel.ONE, SubjectVolume.GT, true), SecurityLevel.A1),
+            entry(new LevelKey(ThreatLevel.ONE, SubjectVolume.GT, false), SecurityLevel.A1),
+            entry(new LevelKey(ThreatLevel.ONE, SubjectVolume.LT, true), SecurityLevel.A1),
+            entry(new LevelKey(ThreatLevel.ONE, SubjectVolume.LT, false), SecurityLevel.A1),
+            entry(new LevelKey(ThreatLevel.TWO, SubjectVolume.GT, true), SecurityLevel.B3),
+            entry(new LevelKey(ThreatLevel.TWO, SubjectVolume.GT, false), SecurityLevel.D2),
+            entry(new LevelKey(ThreatLevel.TWO, SubjectVolume.LT, true), SecurityLevel.B3),
+            entry(new LevelKey(ThreatLevel.TWO, SubjectVolume.LT, false), SecurityLevel.B3),
+            entry(new LevelKey(ThreatLevel.THREE, SubjectVolume.GT, true), SecurityLevel.B4),
+            entry(new LevelKey(ThreatLevel.THREE, SubjectVolume.GT, false), SecurityLevel.D3),
+            entry(new LevelKey(ThreatLevel.THREE, SubjectVolume.LT, true), SecurityLevel.B4),
+            entry(new LevelKey(ThreatLevel.THREE, SubjectVolume.LT, false), SecurityLevel.B4)
     )),
-    SPECIAL("Специальные категории", Map.of(
-            ThreatLevel.ONE, Map.of(SubjectVolume.GT, SecurityLevel.A1, SubjectVolume.LT, SecurityLevel.A1),
-            ThreatLevel.TWO, Map.of(SubjectVolume.GT, SecurityLevel.B1, SubjectVolume.LT, SecurityLevel.B2),
-            ThreatLevel.THREE, Map.of(SubjectVolume.GT, SecurityLevel.E2, SubjectVolume.LT, SecurityLevel.V3)
+    SPECIAL("Специальные категории", Map.ofEntries(
+            entry(new LevelKey(ThreatLevel.ONE, SubjectVolume.GT, true), SecurityLevel.A1),
+            entry(new LevelKey(ThreatLevel.ONE, SubjectVolume.GT, false), SecurityLevel.A1),
+            entry(new LevelKey(ThreatLevel.ONE, SubjectVolume.LT, true), SecurityLevel.A1),
+            entry(new LevelKey(ThreatLevel.ONE, SubjectVolume.LT, false), SecurityLevel.A1),
+            entry(new LevelKey(ThreatLevel.TWO, SubjectVolume.GT, true), SecurityLevel.B2),
+            entry(new LevelKey(ThreatLevel.TWO, SubjectVolume.GT, false), SecurityLevel.B1),
+            entry(new LevelKey(ThreatLevel.TWO, SubjectVolume.LT, true), SecurityLevel.B2),
+            entry(new LevelKey(ThreatLevel.TWO, SubjectVolume.LT, false), SecurityLevel.B2),
+            entry(new LevelKey(ThreatLevel.THREE, SubjectVolume.GT, true), SecurityLevel.V3),
+            entry(new LevelKey(ThreatLevel.THREE, SubjectVolume.GT, false), SecurityLevel.E2),
+            entry(new LevelKey(ThreatLevel.THREE, SubjectVolume.LT, true), SecurityLevel.V3),
+            entry(new LevelKey(ThreatLevel.THREE, SubjectVolume.LT, false), SecurityLevel.V3)
     )),
-    BIOMETRIC("Биометрические", Map.of(
-            ThreatLevel.ONE, Map.of(SubjectVolume.GT, SecurityLevel.A1, SubjectVolume.LT, SecurityLevel.A1),
-            ThreatLevel.TWO, Map.of(SubjectVolume.GT, SecurityLevel.V2, SubjectVolume.LT, SecurityLevel.V2),
-            ThreatLevel.THREE, Map.of(SubjectVolume.GT, SecurityLevel.G3, SubjectVolume.LT, SecurityLevel.G3)
+    BIOMETRIC("Биометрические", Map.ofEntries(
+            entry(new LevelKey(ThreatLevel.ONE, SubjectVolume.GT, true), SecurityLevel.A1),
+            entry(new LevelKey(ThreatLevel.ONE, SubjectVolume.GT, false), SecurityLevel.A1),
+            entry(new LevelKey(ThreatLevel.ONE, SubjectVolume.LT, true), SecurityLevel.A1),
+            entry(new LevelKey(ThreatLevel.ONE, SubjectVolume.LT, false), SecurityLevel.A1),
+            entry(new LevelKey(ThreatLevel.TWO, SubjectVolume.GT, true), SecurityLevel.V2),
+            entry(new LevelKey(ThreatLevel.TWO, SubjectVolume.GT, false), SecurityLevel.V2),
+            entry(new LevelKey(ThreatLevel.TWO, SubjectVolume.LT, true), SecurityLevel.V2),
+            entry(new LevelKey(ThreatLevel.TWO, SubjectVolume.LT, false), SecurityLevel.V2),
+            entry(new LevelKey(ThreatLevel.THREE, SubjectVolume.GT, true), SecurityLevel.G3),
+            entry(new LevelKey(ThreatLevel.THREE, SubjectVolume.GT, false), SecurityLevel.G3),
+            entry(new LevelKey(ThreatLevel.THREE, SubjectVolume.LT, true), SecurityLevel.G3),
+            entry(new LevelKey(ThreatLevel.THREE, SubjectVolume.LT, false), SecurityLevel.G3)
     )),
-    PUBLIC("Общедоступные", Map.of(
-            ThreatLevel.ONE, Map.of(SubjectVolume.GT, SecurityLevel.A2, SubjectVolume.LT, SecurityLevel.A2),
-            ThreatLevel.TWO, Map.of(SubjectVolume.GT, SecurityLevel.G2, SubjectVolume.LT, SecurityLevel.A3),
-            ThreatLevel.THREE, Map.of(SubjectVolume.GT, SecurityLevel.A4, SubjectVolume.LT, SecurityLevel.B4)
+    PUBLIC("Общедоступные", Map.ofEntries(
+            entry(new LevelKey(ThreatLevel.ONE, SubjectVolume.GT, true), SecurityLevel.A2),
+            entry(new LevelKey(ThreatLevel.ONE, SubjectVolume.GT, false), SecurityLevel.A2),
+            entry(new LevelKey(ThreatLevel.ONE, SubjectVolume.LT, true), SecurityLevel.A2),
+            entry(new LevelKey(ThreatLevel.ONE, SubjectVolume.LT, false), SecurityLevel.A2),
+            entry(new LevelKey(ThreatLevel.TWO, SubjectVolume.GT, true), SecurityLevel.A3),
+            entry(new LevelKey(ThreatLevel.TWO, SubjectVolume.GT, false), SecurityLevel.G2),
+            entry(new LevelKey(ThreatLevel.TWO, SubjectVolume.LT, true), SecurityLevel.A3),
+            entry(new LevelKey(ThreatLevel.TWO, SubjectVolume.LT, false), SecurityLevel.A3),
+            entry(new LevelKey(ThreatLevel.THREE, SubjectVolume.GT, true), SecurityLevel.A4),
+            entry(new LevelKey(ThreatLevel.THREE, SubjectVolume.GT, false), SecurityLevel.A4),
+            entry(new LevelKey(ThreatLevel.THREE, SubjectVolume.LT, true), SecurityLevel.A4),
+            entry(new LevelKey(ThreatLevel.THREE, SubjectVolume.LT, false), SecurityLevel.A4)
     ));
 
     @Getter
     private final String displayName;
-    private final Map<ThreatLevel, Map<SubjectVolume, SecurityLevel>> levelMap;
+    private final Map<LevelKey, SecurityLevel> levelMap;
 
-    PDType(String displayName, Map<ThreatLevel, Map<SubjectVolume, SecurityLevel>> levelMap) {
+    PDType(String displayName, Map<LevelKey, SecurityLevel> levelMap) {
         this.displayName = displayName;
         this.levelMap = levelMap;
     }
 
-    public SecurityLevel getLevel(ThreatLevel threat, SubjectVolume volume) {
-        return levelMap.get(threat).get(volume);
+    public SecurityLevel getLevel(ThreatLevel threat, SubjectVolume volume, boolean hasEmployee) {
+        return levelMap.get(new LevelKey(threat, volume, hasEmployee));
     }
 
     public static PDType fromDisplayName(String name) {
         return Stream.of(values())
-                .filter(e -> e.displayName.equals(name))
+                .filter(e -> e.displayName.equalsIgnoreCase(name))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Unknown PD type: " + name));
     }

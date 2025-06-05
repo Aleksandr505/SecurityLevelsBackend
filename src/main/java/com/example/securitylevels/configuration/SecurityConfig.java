@@ -11,6 +11,9 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 public class SecurityConfig implements WebMvcConfigurer {
 
+    /**
+     * Настраиваем cors
+     */
     @Override
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/api/**")
@@ -20,14 +23,14 @@ public class SecurityConfig implements WebMvcConfigurer {
 
     /**
      * Этот бин настраивает цепочку фильтров безопасности:
-     * - Отключает CSRF (не нужен для чистых REST API)
+     * - Отключает CSRF
      * - Разрешает любые запросы без авторизации
      * - Отключает форму логина и BasicAuth
      */
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                // 1) Отключаем CSRF для stateless REST
+                // 1) Отключаем CSRF
                 .csrf(csrf -> csrf.disable())
                 // 2) Настраиваем авторизацию: все запросы разрешены
                 .authorizeHttpRequests(auth -> auth

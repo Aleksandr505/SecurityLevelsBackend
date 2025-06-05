@@ -1,7 +1,6 @@
 package com.example.securitylevels.controller;
 
 import com.example.securitylevels.model.domain.SecurityLevel;
-import com.example.securitylevels.model.domain.gis.GisMeasures;
 import com.example.securitylevels.model.dto.LevelRequest;
 import com.example.securitylevels.model.dto.LevelResponse;
 import com.example.securitylevels.service.GisService;
@@ -9,11 +8,10 @@ import com.example.securitylevels.service.LevelService;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 /**
  * REST-контроллер для определения уровня защиты персональных данных.

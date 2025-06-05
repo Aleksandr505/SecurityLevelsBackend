@@ -1,17 +1,22 @@
 package com.example.securitylevels.model.dto;
 
-import lombok.*;
+import com.example.securitylevels.model.domain.gis.GisMeasures;
+
+import java.util.List;
+import java.util.Map;
 
 public class LevelResponse {
     private String maxLevel;
     private String reason;
+    private Map<String, List<GisMeasures.Measure>> measures;
 
     public LevelResponse() {
     }
 
-    public LevelResponse(String maxLevel, String reason) {
+    public LevelResponse(String maxLevel, String reason, Map<String, List<GisMeasures.Measure>> measures) {
         this.maxLevel = maxLevel;
         this.reason = reason;
+        this.measures = measures;
     }
 
     public String getMaxLevel() {
@@ -28,5 +33,13 @@ public class LevelResponse {
 
     public void setReason(String reason) {
         this.reason = reason;
+    }
+
+    public Map<String, List<GisMeasures.Measure>> getMeasures() {
+        return measures;
+    }
+
+    public void setMeasures(Map<String, List<GisMeasures.Measure>> measures) {
+        this.measures = measures;
     }
 }

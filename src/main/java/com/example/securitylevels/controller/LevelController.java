@@ -1,13 +1,19 @@
 package com.example.securitylevels.controller;
 
 import com.example.securitylevels.model.domain.SecurityLevel;
+import com.example.securitylevels.model.domain.gis.GisMeasures;
 import com.example.securitylevels.model.dto.LevelRequest;
 import com.example.securitylevels.model.dto.LevelResponse;
+import com.example.securitylevels.service.GisService;
 import com.example.securitylevels.service.LevelService;
 import jakarta.validation.Valid;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * REST-контроллер для определения уровня защиты персональных данных.
@@ -17,9 +23,11 @@ import org.springframework.web.bind.annotation.*;
 public class LevelController {
 
     private final LevelService levelService;
+    private final GisService gisService;
 
-    public LevelController(LevelService levelService) {
+    public LevelController(LevelService levelService, GisService gisService) {
         this.levelService = levelService;
+        this.gisService = gisService;
     }
 
     /**
@@ -30,38 +38,39 @@ public class LevelController {
      *   "certApp": "not-certified",
      *   "network": "network",
      *   "number": "gt",
-     *   "selectedOptions": ["Иные", "Биометрические"]
+     *   "selectedOptions": ["Иные", "Биометрические"],
+     *   "isEmployee": "false"
      * }
      *
      * @param request DTO с проверенными полями (валидация через @Valid)
-     * @return ResponseEntity с телом LevelResponse или 400 Bad Request
+     * @return ResponseEntity с телом LevelResponse
      */
     @PostMapping
     public ResponseEntity<LevelResponse> getLevel(@Valid @RequestBody LevelRequest request) {
-        // Проверка, что хотя бы одна категория ПД выбрана
-        if (request.getSelectedOptions().isEmpty()) {
-            return ResponseEntity.badRequest().body(
-                    new LevelResponse(null, "Ошибка: выберите хотя бы одну категорию ПД")
-            );
-        }
-
         LevelResponse response;
         try {
             // Вычисляем уровень через сервис
             SecurityLevel securityLevel = levelService.calculateMaxSecurityLevel(request);
+
+            // Фильтрация мер по классу
+            var measures = gisService.filterMeasures(securityLevel.getPriority());
+
             // Формируем ответ
             response = new LevelResponse(
                     securityLevel.getCode(),      // код уровня, например "1а"
-                    securityLevel.getReason()     // описание причины
+                    securityLevel.getReason(),     // описание причины
+                    measures
             );
         } catch (Exception e) {
-            response = new LevelResponse(null, e.getMessage());
+            // Ловим ошибки со стороны сервера
+            response = new LevelResponse(null, e.getMessage(), null);
             return ResponseEntity
                     .status(500)
                     .contentType(MediaType.APPLICATION_JSON)
                     .body(response);
         }
 
+        // Возвращаем ответ
         return ResponseEntity
                 .ok()
                 .contentType(MediaType.APPLICATION_JSON)
